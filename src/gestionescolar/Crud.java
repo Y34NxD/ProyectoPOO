@@ -330,7 +330,7 @@ public class Crud {
             System.out.println("Numero de cuenta erroneo");        
     }
     
-    private void verHistorialAcadem(ArrayList<Alumno> alumnos){
+    public void verHistorialAcadem(ArrayList<Alumno> alumnos){
         int pos = buscarAlumno(alumnos);
         if(pos != -1)
            alumnos.get(pos).historialAcadem();
@@ -338,7 +338,7 @@ public class Crud {
             System.out.println("Numero de cuenta erroneo");    
     }
     
-    private static void generarNumIncrip(ArrayList<Alumno> alumnos){
+    public void generarNumIncrip(ArrayList<Alumno> alumnos){
         float[] arrTurno = new float[alumnos.size()];
         for (int i = 0; i < alumnos.size(); i++) {
             arrTurno[i] = alumnos.get(i).getIndicadorEsc();

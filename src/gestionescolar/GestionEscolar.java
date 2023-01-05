@@ -34,7 +34,7 @@ public class GestionEscolar {
                         "Concepcion","Gili","Cris","Denis","Eider","Francis","Harper","Jade","Jessie","Joss",
                         "Lucian","Marlon","Lujan","Milan","Morgan"};
         String [] nom2 ={"Zuri","Yeray","Santana","Sagrario","Tyler","Trinidad","Robin","Noa","Neftali","Nain",
-                        "Arden","Avery","Blair","Dagomar","Dallas","Dani","Darcy","Eden","Harper","Irem",
+                        "Arden","Avery","Blair","Dagomar","Dallas","Dani","Darcy","Eden","Jean","Irem",
                         "Jazz","Kai","Mel","Uri","Rain"};
         
         ArrayList<Alumno> alumnos = new ArrayList<>();
