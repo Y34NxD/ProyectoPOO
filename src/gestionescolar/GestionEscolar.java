@@ -54,12 +54,13 @@ public class GestionEscolar {
             alu.setApellido2(ap2[aleatorio4]);
             alu.setDireccion(dir[i]);
             alu.setEdad(edadAleatoria);
-            alu.calcularNumInscri();
+            alu.calcularIndicadorEsc();
             alu.setNumCuenta(3001+i);   //El numero de cuenta será lineal e irá del 3001 al 3500
             
             alumnos.add(i,alu); 
         }
         
+        //Turno(alumnos);
         
         //  IMPRIME ALUMNOS
         /*
@@ -138,5 +139,6 @@ public class GestionEscolar {
         return direcciones;
         /* ######################################################################################### */
     }
+    
     
 }

@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,29 +14,29 @@ import java.util.logging.Logger;
  * @author Jean
  */
 public class Alumno {
-    private String nombre1;       // listo
-    private String nombre2;       // listo
-    private String apellido1;     // listo
-    private String apellido2;     // listo
-    private int edad;             // listo
+    private String nombre1;       
+    private String nombre2;       
+    private String apellido1;     
+    private String apellido2;     
+    private int edad;             
     private int numCuenta;
-    private String direccion;    // listo
-    //private Asignatura[] tiraMate;   //
+    private String direccion;    
     private ArrayList<Asignatura> tiraMate = new ArrayList<Asignatura>(); 
-    private float promedio;      //listo
-    private int credIngreso; //totales listo
-    private int credActual; // obtenidos listo
-    private int numAsigInscriOrdi; // listo
-    private float numInscrip; 
-    private int numAsigApOrdi; // listo 
-    private int semestreIdeal; // listo
+    private float promedio;      
+    private int credIngreso; 
+    private int credActual; 
+    private int numAsigInscriOrdi; 
+    private float indicadorEsc; 
+    private int numAsigApOrdi; 
+    private int semestreIdeal; 
     private float escolaridad=0; 
-    private float velocidad=0; 
+    private float velocidad=0;      
+    private int numInscrip=0; 
 
     public Alumno() {
     }
 
-    public Alumno(String nombre1, String nombre2, String apellido1, String apellido2, int edad,int numCuenta, String direccion,float promedio, int credIngreso, int credActual, int numAsigInscriOrdi, float numInscrip, int numAsigApOrdi, int semestreIdeal, float escolaridad, float velocidad) {
+    public Alumno(String nombre1, String nombre2, String apellido1, String apellido2, int edad,int numCuenta, String direccion,float promedio, int credIngreso, int credActual, int numAsigInscriOrdi, float indicadorEsc, int numAsigApOrdi, int semestreIdeal, float escolaridad, float velocidad, int numInscrip) {
         this.nombre1 = nombre1;
         this.nombre2 = nombre2;
         this.apellido1 = apellido1;
@@ -49,13 +48,14 @@ public class Alumno {
         this.credIngreso = credIngreso;
         this.credActual = credActual;
         this.numAsigInscriOrdi = numAsigInscriOrdi;
-        this.numInscrip = numInscrip;
+        this.indicadorEsc = indicadorEsc;
         this.numAsigApOrdi = numAsigApOrdi;
         this.semestreIdeal = semestreIdeal;
         this.escolaridad = escolaridad;
         this.velocidad = velocidad;
+        this.numInscrip = numInscrip; 
     }
-
+    
     public String getNombre1() {
         return nombre1;
     }
@@ -100,9 +100,6 @@ public class Alumno {
         return numAsigInscriOrdi;
     }
 
-    public float getNumInscrip() {
-        return numInscrip;
-    }
 
     public int getNumAsigApOrdi() {
         return numAsigApOrdi;
@@ -120,6 +117,18 @@ public class Alumno {
         return velocidad;
     }
 
+    public float getIndicadorEsc() {
+        return indicadorEsc;
+    }
+    
+    public int getNumInscrip() {
+        return numInscrip;
+    }
+
+    public void setNumInscrip(int numInscrip) {
+        this.numInscrip = numInscrip;
+    }
+    
     public void setNombre1(String nombre1) {
         this.nombre1 = nombre1;
     }
@@ -221,7 +230,7 @@ public class Alumno {
 
     public void setVelocidad() {
         velocidad = ((float)(credActual)/(float)(credIngreso));
-        calcularNumInscri();
+        calcularIndicadorEsc();
     }
     
     public void tiraMaterias(){ 
@@ -312,8 +321,8 @@ public class Alumno {
         }
     }
     
-    public void calcularNumInscri(){
-        numInscrip = (float)((promedio)*(escolaridad)*(velocidad));
+    public void calcularIndicadorEsc(){
+        indicadorEsc = (float)((promedio)*(escolaridad)*(velocidad));
     }
     
     public ArrayList<Asignatura> getTiraMate() {
@@ -367,7 +376,7 @@ public class Alumno {
                 "\n-Creditos de ingreso: " + credIngreso + 
                 "\n-Creditos actuales: " + credActual + 
                 "\n-numAsigInscriOrdi: " + numAsigInscriOrdi + 
-                "\n-numInscrip: " + numInscrip + 
+                "\n-indicador Esc: " + indicadorEsc + 
                 "\n-numAsigApOrdi: " + numAsigApOrdi + 
                 "\n-Semestre ideal: " + semestreIdeal + 
                 "\n-Escolaridad: " + escolaridad + 

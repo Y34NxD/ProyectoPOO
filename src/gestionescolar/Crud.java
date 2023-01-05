@@ -22,6 +22,7 @@ public class Crud {
     
     public void menu(ArrayList<Alumno> alumnos){
         int op;
+        generarNumIncrip(alumnos); //Asigna por primera vez los numeros de inscripcion
         do{
             System.out.println("          |-------------------------------------------------------------------|");
             System.out.println("          |                           MENU ADMIN ESCOLAR                      |");
@@ -97,10 +98,11 @@ public class Crud {
         nuevoAlu.setApellido2(ap2);
         nuevoAlu.setDireccion(dir);
         nuevoAlu.setEdad(edadAleatoria);
-        nuevoAlu.calcularNumInscri();
+        nuevoAlu.calcularIndicadorEsc();
         nuevoAlu.setNumCuenta(nuevoNumCuenta);   //El numero de cuenta será lineal y empezará desde el utimo numCuenta creado 
         
         alumnos.add(nuevoAlu); //Lo incerta en la ultima posición
+        generarNumIncrip(alumnos); //Reasigna los numeros de inscripcion contando al alumno creado
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.println("    Alumno Creado:");
         mostrarAlumno(nuevoAlu);
@@ -108,7 +110,8 @@ public class Crud {
     }
     
     public void mostrarAlumno(Alumno alu){
-        
+        DecimalFormat frmt = new DecimalFormat();
+        frmt.setMaximumFractionDigits(2);
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.println("    No. Cuenta: " + alu.getNumCuenta());
         alu.nomCompleto();
@@ -116,8 +119,9 @@ public class Crud {
         System.out.println("    Direccion: " + alu.getDireccion());
         System.out.println("    Semeste: " + alu.getSemestreIdeal());
         System.out.println("    Materias inscritas en Ordi: "+alu.getNumAsigInscriOrdi());
-        System.out.println("    Promedio: " + alu.getPromedio());
-        System.out.println("    Numero de inscripcion: " + alu.getNumInscrip() );
+        System.out.println("    Promedio: " + frmt.format(alu.getPromedio()));
+        System.out.println("    Numero de inscripcion: " + alu.getNumInscrip());
+        System.out.println("    Indicador escolar: " +alu.getIndicadorEsc() );
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.println(alu.getTiraMate());
     }
@@ -132,7 +136,8 @@ public class Crud {
             System.out.println("    Semeste: " + alumnos.get(i).getSemestreIdeal());
             System.out.println("    Promedio: " + alumnos.get(i).getPromedio());
             System.out.println("    Creditos: " +alumnos.get(i).getCredActual()+ " / " +alumnos.get(i).getCredIngreso());
-            System.out.println("    Numero de inscripcion: " + alumnos.get(i).getNumInscrip() );
+            System.out.println("    Numero de Inscripcion: " + alumnos.get(i).getNumInscrip());
+            System.out.println("    Indicador escolar: " + alumnos.get(i).getIndicadorEsc());
             System.out.println("-------------------------------------------------------------------------------------------------------------");
         }
     }
@@ -171,15 +176,16 @@ public class Crud {
             int credIngreso = alumnos.get(pos).getCredIngreso();
             int credActual = alumnos.get(pos).getCredActual();
             int numAsigInscriOrdi = alumnos.get(pos).getNumAsigInscriOrdi();
-            float numInscrip = alumnos.get(pos).getNumInscrip();
+            float indicadorEsc = alumnos.get(pos).getIndicadorEsc();
             float escolaridad = alumnos.get(pos).getEscolaridad();
             float velocidad = alumnos.get(pos).getVelocidad();
             int numCuenta = alumnos.get(pos).getNumCuenta();
             int numAsigApOrdi = alumnos.get(pos).getNumAsigApOrdi();
+            int tur = alumnos.get(pos).getNumInscrip();
             
             Alumno nuevoAlu = new Alumno(nom1,nom2,ap1,ap2,edad,numCuenta,quitarComasDir(dir),promedio,credIngreso,
-                                    credActual,numAsigInscriOrdi,numInscrip,numAsigApOrdi,semestre,
-                                    escolaridad,velocidad);
+                                    credActual,numAsigInscriOrdi,indicadorEsc,numAsigApOrdi,semestre,
+                                    escolaridad,velocidad,tur);
             nuevoAlu.tiraMaterias();
             alumnos.set(pos, nuevoAlu);
             mostrarAlumno(nuevoAlu); 
@@ -197,6 +203,7 @@ public class Crud {
         if(pos != -1){
             System.out.println("    Datos del Alumno eliminado:");
             mostrarAlumno(alumnos.remove(pos));
+            generarNumIncrip(alumnos); //Reasigna los numeros de inscripcion ahora sin el alumno eliminado
         }
         else
             System.out.println("    Numero de cuenta no existe");
@@ -213,18 +220,18 @@ public class Crud {
             PrintWriter salida = new PrintWriter(bw);
             
             salida.println("No.Cuenta,Apellido P,Apellido M,Primer Nombre,Segundo Nombre,Edad,Direccion,Promedio,Semestre,Creditos,"
-                    + "Asignaturas inscritas en Ordi,Asignaturas aprobadas en Ordi,No. Inscripción,Velocidad,Escolaridad");
+                    + "Asignaturas inscritas en Ordi,Asignaturas aprobadas en Ordi,Indicador Escolar,Velocidad,Escolaridad,Numero de Inscripcion");
             for(int i=0;i<alumnos.size();i++){
                 salida.println(""+alumnos.get(i).getNumCuenta()+","+alumnos.get(i).getApellido1()+","+alumnos.get(i).getApellido2()+
                         ","+alumnos.get(i).getNombre1()+","+alumnos.get(i).getNombre2()+","+alumnos.get(i).getEdad()+
                         ","+quitarComasDir(alumnos.get(i).getDireccion())+","+frmt.format(alumnos.get(i).getPromedio())+","+alumnos.get(i).getSemestreIdeal()+
                         ","+alumnos.get(i).getCredActual()+" de "+alumnos.get(i).getCredIngreso()+","+alumnos.get(i).getNumAsigInscriOrdi()+
-                        ","+alumnos.get(i).getNumAsigApOrdi()+","+alumnos.get(i).getNumInscrip()+","+alumnos.get(i).getVelocidad()+
-                        ","+alumnos.get(i).getEscolaridad());
+                        ","+alumnos.get(i).getNumAsigApOrdi()+","+alumnos.get(i).getIndicadorEsc()+","+alumnos.get(i).getVelocidad()+
+                        ","+alumnos.get(i).getEscolaridad() + ","+alumnos.get(i).getNumInscrip());
             }
                         
             salida.close();
-            System.out.println("=-=-=-=-=-=-=-=- CSV GENERADO EXITOSAMENTE =-=-=-=-=-=-=-=-=-=-");
+            System.out.println(" =-=-=-=-=-=-=-=- CSV GENERADO EXITOSAMENTE =-=-=-=-=-=-=-=-=-=-\n");
         } catch (IOException ex) {
             Logger.getLogger(Crud.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -273,6 +280,7 @@ public class Crud {
     
     public void menuAlumno(ArrayList<Alumno> alumnos){
         int op;
+        generarNumIncrip(alumnos);
         do{
             System.out.println("          |-------------------------------------------------------------------|");
             System.out.println("          |                           MENU ALUMNO                             |");
@@ -327,9 +335,44 @@ public class Crud {
         if(pos != -1)
            alumnos.get(pos).historialAcadem();
         else
-            System.out.println("Numero de cuenta erroneo"); 
+            System.out.println("Numero de cuenta erroneo");    
+    }
+    
+    private static void generarNumIncrip(ArrayList<Alumno> alumnos){
+        float[] arrTurno = new float[alumnos.size()];
+        for (int i = 0; i < alumnos.size(); i++) {
+            arrTurno[i] = alumnos.get(i).getIndicadorEsc();
+        }
+        //acomoda los indicadores escolares de Mayor a menor
+        float aux;
+        int n = arrTurno.length;
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+               if (arrTurno[i] > arrTurno[j]) {
+                    aux = arrTurno[i];
+                    arrTurno[i] = arrTurno[j];
+                    arrTurno[j] = aux;
+                } 
+            }
+        }
         
+        /*  Este for se encarga de inicializar los numeros de inscripcion en 0
+            Ya que al agregar/eliminar algun alumno provoca que se pueda repetir
+            los numeros de inscripcion, y al iniciarlos en 0 evitamos este problema
+        */ 
+        for (int i = 0; i < alumnos.size(); i++) {
+            alumnos.get(i).setNumInscrip(0);
+        }
         
+        //Asigna el Turno (numInscripcion)
+        for (int i = 0; i < alumnos.size(); i++) {
+            for (int j = 0; j < alumnos.size(); j++) {
+                if(arrTurno[i] == (alumnos.get(j).getIndicadorEsc())){
+                    if(alumnos.get(j).getNumInscrip() == 0)
+                        alumnos.get(j).setNumInscrip(i+1);
+                }
+            }
+        }
     }
     
 }
